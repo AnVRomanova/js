@@ -1,0 +1,551 @@
+<!Doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <title>Admin</title>
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-dark bg-dark p-0">
+      <div class="container-fluid">
+        <div class="text-white">
+          <strong> <span id="dataName"></span></strong>
+          <span> with roles: </span>
+          <span id="rolesName"> </span>
+          </span>
+        </div>
+        <div class="nav navbar-nav navbar-right">
+          <span><form th:action="@{/logout}" method="post">
+            <button  style="background-color: #363E3E;color:#FFF;border-color: #363E3E;" type="submit" class="btn btn-secondary">Logout</button>
+          </form></span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-2 mt-3 px-0">
+          <ul class="nav flex-column nav-pills" role="tablist">
+            <li><a class="nav-link active" href="#Admin" role="tab" data-toggle="pill">Admin</a></li>
+            <li><a class="nav-link" href="#User" role="tab" data-toggle="pill">User</a></li>
+          </ul>
+        </div>
+
+        <div class="col-10 bg-light" style="height: 100vh">
+          <div class="container mt-3">
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane fade show active" id="Admin">
+
+                <div class="page-header">
+                  <h2>Admin panel</h2>
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link active" href="#usersTable" role="tab" data-toggle="tab" aria-selected="true">Users table</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link" href="#newUser" role="tab" data-toggle="tab" aria-selected="false">New User</a>
+                    </li>
+                  </ul>
+
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade show active" id="usersTable">
+                      <div class="card">
+                        <h5 class="card-header">All users</h5>
+                        <div class="card-body">
+                          <table class="table table-striped" id="mainTableWithUsers">
+                            <thead>
+                              <tr>
+                                <th>Id</th>
+                                <th>UserName</th>
+                                <th>LastName</th>
+                                <th>Email</th>
+                                <th>Active</th>
+                                <th>Role</th>
+                                <th scope = "col">Edit</th>
+                                <th scope = "col">Delete</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="newUser" role="tabpanel" aria-labelledby="nav-profile-tab">
+                      <div class="card">
+                        <h5 class="card-header">Add new user</h5>
+                        <div class="card-body">
+                          <div class="container mt-2 col-sm-4 text-center">
+                            <form id="defaultSomeForm">
+                              <div class="form-group">
+                                <label class="font-weight-bold" for="AddNewUserName"><strong>Name</strong></label>
+                                <input class="form-control" type="text" id="AddNewUserName"/>
+                              </div>
+                              <div class="form-group">
+                                <label class="font-weight-bold" for="AddNewUserLastName"><strong>LastName</strong></label>
+                                <input class="form-control"  type="text" id="AddNewUserLastName"/>
+                              </div>
+                              <div class="form-group">
+                                <label class="font-weight-bold" for="AddNewUserEmail"><strong>Email</strong></label>
+                                <input class="form-control"  type="text" id="AddNewUserEmail"/>
+                              </div>
+                              <div class="form-group">
+                                <label class="font-weight-bold" for="AddNewUserActive"><strong>Active</strong></label>
+                                <input class="form-control" type="text" id="AddNewUserActive"/>
+                              </div>
+                              <div class="form-group">
+                                <label class="font-weight-bold" for="AddNewUserPassword"><strong>Password</strong></label>
+                                <input class="form-control" type="text" id="AddNewUserPassword"/>
+                              </div>
+                              <label class="form-label" for="rolesAddNew"><strong>Role</strong></label>
+                              <select name="roles" multiple class="custom-select" size="2" id="rolesAddNew">
+
+                                <option value="2">ADMIN</option>
+                                <option selected value="1">USER</option></select>
+
+                              <button class="btn btn-success" type="button" id="addNewUserButton">Add new user</button>
+
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div role="tabpanel" class="tab-pane fade" id="User">
+                <div class="page-header">
+                  <h2>User information-page</h2>
+                  <h5 class="card-header">About user</h5>
+                  <table class="table table-striped card-body">
+                    <thead>
+                    <tr>
+                      <th scope = "col">ID</th>
+                      <th scope = "col">Name</th>
+                      <th scope = "col">LastName</th>
+                      <th scope = "col">Email</th>
+                      <th scope = "col">Role</th>
+                    </tr>
+                    </thead>
+                    <tbody id="data3">
+
+                    </tbody>
+                  </table>
+                </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--скрытое дефолтное модальное окно -->
+    <div class="modal fade" id="someDefaultModal" tabindex="-1" role="dialog" aria-labelledby="someDefaultModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+          </div>
+
+          <div class="modal-footer">
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $(async function () {
+        await getTableWithUsers();
+        await getNewUserForm();
+        await getDefaultModal();
+        await addNewUser();
+
+      })
+
+      const userFetchService = {
+        head: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Referer': null
+        },
+
+        findOneUser: async (id) => await fetch(`/only_for_admins/${id}`),
+        findAllRoles: async () => await fetch(`only_for_admins/roles`),
+        addNewUser: async (user) => await fetch('only_for_admins/add', {method: 'POST', headers: userFetchService.head, body: JSON.stringify(user)}),
+        updateUser: async (user) => await fetch(`/only_for_admins/edit`, {method: 'PUT', headers: userFetchService.head, body: JSON.stringify(user)}),
+        deleteUser: async (id) => await fetch(`/only_for_admins/${id}`, {method: 'DELETE', headers: userFetchService.head})
+      }
+      async function getTableWithUsers() {
+          let table = $('#mainTableWithUsers tbody');
+          table.empty();
+          fetch("/only_for_admins/getAll").then(
+              res => {
+                  res.json().then(
+                      data => {
+                          data.forEach(user => {
+                              let roles ="";
+                              user.roles.forEach(role => {
+                                  if (role.id === 1){
+                                      roles += "USER"
+                                  }
+                                  if (role.id === 2){
+                                      roles += "ADMIN"
+                                  }
+                                  if (role === 1){
+                                      roles += "USER"
+                                  }
+                                  if (role === 2){
+                                      roles += "ADMIN"
+                                  }
+                              })
+
+                              let tableFilling = `$(
+                                  <tr>
+                                    <td>${user.id}</td>
+                                    <td>${user.name}</td>
+                                    <td>${user.lastName}</td>
+                                    <td>${user.email}</td>
+                                    <td>${user.active}</td>
+                                    <td>${roles}</td>
+                                    <td>
+                                        <button type="button" onclick="myFunction()" id="button" data-target="#someDefaultModal" data-userid="${user.id}" data-action="edit" class="btn btn-secondary"
+                                        data-toggle="modal" ></button>
+                                    </td>
+                                    <td>
+                                        <button type="button" onclick="myFunction()" id="button" data-target="#someDefaultModal" data-userid="${user.id}" data-action="delete" class="btn btn-danger"
+                                        data-toggle="modal" ></button>
+                                    </td>
+                                  </tr>
+                              )`;
+                              table.append(tableFilling);
+                          })
+
+                      }
+                  )
+              }
+          )
+      }
+
+      function myFunction (){
+         let defaultModal = $('#someDefaultModal');
+         let button1 = document.getElementsByClassName('btn btn-outline-secondary');
+         let targetButton = $(event.target);
+         let buttonUserId = targetButton.attr('data-userid');
+         let buttonAction = targetButton.attr('data-action');
+
+         defaultModal.attr('data-userid', buttonUserId);
+         defaultModal.attr('data-action', buttonAction);
+         defaultModal.modal('show');
+
+      }
+      async function getDefaultModal() {
+          $('#someDefaultModal').modal({
+              keyboard: true,
+              backdrop: "static",
+              show: false
+          }).on("show.bs.modal", (event) => {
+              let thisModal = $(event.target);
+              let userid = thisModal.attr('data-userid');
+              let action = thisModal.attr('data-action');
+
+              switch (action) {
+                case "edit":
+                  editUser(thisModal, userid);
+                  break;
+                case 'delete':
+                  deleteUser(thisModal, userid);
+                  break;
+              }
+
+          }).on("hidden.bs.modal", (e) => {
+              let thisModal = $(e.target);
+              thisModal.find('.modal-title').html('');
+              thisModal.find('.modal-body').html('');
+              thisModal.find('.modal-footer').html('');
+          })
+      }
+
+      fetch("/only_for_admins/get").then(
+          res => {
+              res.json().then(
+                  data => {
+                      let temp3 = "";
+                          temp3  += "<tr><td>"+ data.id + "</td>"
+                          temp3 += "<td>" + data.name + "</td>"
+                          temp3 += "<td>" + data.lastName + "</td>"
+                          temp3 += "<td>" + data.email + "</td>"
+                          temp3 +="<td>"
+                          data.roles.forEach(r => {
+                              if (r.id === 1){
+                                  temp3 += "USER"
+                              }
+                              if (r.id === 2){
+                                 temp3 += "ADMIN"
+                              }
+                              if (r === 1){
+                                 temp3 += "ADMIN"
+                              }
+                              if (r === 2){
+                                 temp3 += "ADMIN"
+                              }
+                          })
+                      temp3 +="</td>"
+                      document.getElementById("data3").innerHTML = temp3;
+                      let temp2 = "";
+                      data.roles.forEach((r) => {
+                          temp2 += "<span>"+r.name+"</span>";
+                      })
+                      document.getElementById("thisRoles").innerHTML = temp2
+                  }
+              )
+          }
+      )
+
+      async function editUser(modal, id) {
+          let preuser = await userFetchService.findOneUser(id);
+          let allRoles = await userFetchService.findAllRoles();
+
+          let user = preuser.json();
+          modal.find('.modal-title').html('Edit user');
+
+          let editButton = `<button  class="btn btn-success" id="editButton">Edit</button>`;
+          let closeButton = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`
+          modal.find('.modal-footer').append(editButton);
+          modal.find('.modal-footer').append(closeButton);
+
+          user.then(user => {
+              let bodyForm = `
+                <form class="form-group" id="editUser">
+                <label class="form-label" for="editId"><strong>ID</strong></label>
+                <input type="text" class="form-control" id="id" name="id" value="${user.id}" disabled><br>
+
+                <label class="form-label" for="editname"><strong>Name</strong></label>
+                <input class="form-control" type="text" id="name" value="${user.name}"><br>
+
+                <label class="form-label" for="editLastName"><strong>Name</strong></label>
+                <input class="form-control" id="lastName" type="text" value="${user.lastName}">
+
+                <label class="form-label" for="editEmail"><strong>Email</strong></label>
+                <input class="form-control" id="email" type="text" value="${user.email}">
+
+                <label class="form-label" for="editPasword"><strong>Password</strong></label>
+                <input class="form-control" type="password" id="password"><br>
+
+                <label class="form-label" for="editActive"><strong>Active</strong></label>
+                <input class="form-control" type="text" id="active" value="${user.active}"><br>
+
+
+                <label class="form-label" for="RoleEdit"><strong>Role</strong></label>
+                <select name="roles" multiple class="custom-select" size="2" id="rolesEdit">
+                <option value="2">ADMIN</option>
+                <option selected value="1">USER</option></select>
+
+            </form>`;
+          modal.find('.modal-body').append(bodyForm);
+          }
+      )
+
+      $("#editButton").on('click', async () => {
+          event.preventDefault()
+          let roles = $("#rolesEdit").val()
+          for (let i = 0; i < roles.length; i++) {
+              if (roles[i] === '2') {
+                  roles[i] = {
+                      'id': 2,
+                      'name': 'ROLE_ADMIN',
+                      "authority": "ROLE_ADMIN"
+                  }
+              }
+              if (roles[i] === '1') {
+                  roles[i] = {
+                      'id': 1,
+                      'name': 'ROLE_USER',
+                      "authority": "ROLE_USER"
+                  }
+              }
+          }
+          let id = modal.find("#id").val().trim();
+          let name = modal.find("#name").val().trim();
+          let password = modal.find("#password").val().trim();
+          let email = modal.find("#email").val().trim();
+          let lastName = modal.find("#lastName").val().trim();
+          let active = modal.find("#active").val().trim();
+          let data = {
+              id: id,
+              name: name,
+              email: email,
+              password: password,
+              lastName: lastName,
+              active: active,
+              roles: roles
+          }
+          console.log(data)
+          const response = await userFetchService.updateUser(data);
+
+          if (response.ok) {
+              await getTableWithUsers();
+              modal.modal('hide');
+          } else {
+              let body = await response.json();
+              let alert = `<div class="alert alert-danger alert-dismissible fade show col-12" role="alert" id="sharaBaraMessageError">
+                            ${body.info}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`;
+              modal.find('.modal-body').prepend(alert);
+          }
+        })
+      }
+
+      async function deleteUser(modal, id) {
+          await userFetchService.deleteUser(id);
+          await getTableWithUsers();
+          modal.find('.modal-title').html('');
+          modal.find('.modal-body').html('User was deleted');
+          let closeButton = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`
+          modal.find('.modal-footer').append(closeButton);
+      }
+
+      async function getNewUserForm() {
+          let button = $(`#SliderNewUserForm`);
+          let form = $(`#defaultSomeForm`)
+          button.on('click', () => {
+              if (form.attr("data-hidden") === "true") {
+                  form.attr('data-hidden', 'false');
+                  form.show();
+                  button.text('Hide panel');
+              } else {
+                  form.attr('data-hidden', 'true');
+                  form.hide();
+                  button.text('Show panel');
+              }
+        })
+      }
+      async function addNewUser() {
+          $('#addNewUserButton').click(async () =>  {
+              let addUserForm = $('#defaultSomeForm')
+
+              let roles = $("#rolesAddNew").val()
+              for (let i = 0; i < roles.length; i++) {
+                  if (roles[i] === '2') {
+                      roles[i] = {
+                          'id': 2,
+                          'name': 'ROLE_ADMIN',
+                          "authority": "ROLE_ADMIN"
+                      }
+                  }
+                  if (roles[i] === '1') {
+                      roles[i] = {
+                          'id': 1,
+                          'name': 'ROLE_USER',
+                          "authority": "ROLE_USER"
+                      }
+                  }
+              }
+              let name = addUserForm.find("#AddNewUserName").val().trim();
+              let password = addUserForm.find("#AddNewUserPassword").val().trim();
+              let email = addUserForm.find("#AddNewUserEmail").val().trim();
+              let lastName = addUserForm.find("#AddNewUserLastName").val().trim();
+              let active = addUserForm.find("#AddNewUserActive").val().trim();
+              let data = {
+                  name: name,
+                  email: email,
+                  password: password,
+                  lastName: lastName,
+                  active: active,
+                  roles: roles
+              }
+              const response = await userFetchService.addNewUser(data);
+              console.log("dvfb")
+              if (response.ok) {
+                  await getTableWithUsers();
+                  addUserForm.find("#AddNewUserName").val('');
+                  addUserForm.find("#AddNewUserPassword").val('');
+                  addUserForm.find("#AddNewUserEmail").val('');
+                  addUserForm.find("#AddNewUserLastName").val('');
+                  addUserForm.find("#AddNewUserActive").val('');
+              } else {
+                  let body = await response.json();
+                  let alert = `<div class="alert alert-danger alert-dismissible fade show col-12" role="alert" id="sharaBaraMessageError">
+                                  ${body.info}
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                              </div>`;
+                  addUserForm.prepend(alert)
+              }
+        })
+      }
+
+      fetch("/only_for_admins/get").then(
+              res => {
+                res.json().then(
+                        data => {
+                            let roles2 ="";
+                            data.roles.forEach(role => {
+                            if (role.id === 1){
+                               roles2 += "USER"
+                            }
+                            if (role.id === 2){
+                                roles2 += "ADMIN"
+                            }
+                            if (role === 1){
+                                roles2 += "USER"
+                            }
+                            if (role === 2){
+                                roles2 += "ADMIN"
+                            }
+                          })
+                          document.getElementById("rolesName").innerHTML = roles2
+                          document.getElementById("dataName").innerHTML = data.name;
+                        })
+              }
+      )
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

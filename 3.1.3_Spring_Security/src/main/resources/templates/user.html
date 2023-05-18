@@ -1,0 +1,101 @@
+<!Doctype html>
+  <html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+      <!-- Required meta tags -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <script src="https://code.jquery.com/jquery-3.7.0.min.js" ></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+      <title>User</title>
+    </head>
+    <body>
+      <nav id="data2" class="navbar navbar-dark bg-dark p-0">
+        <div class="container-fluid">
+          <div class="text-white">
+            <strong> <span id="dataName"></span></strong>
+              <span> with roles: </span>
+              <span id="roles"> </span>
+            </span>
+          </div>
+          <div class="nav navbar-nav navbar-right">
+            <span><form th:action="@{/logout}" method="post">
+            <button  style="background-color: #363E3E;color:#FFF;border-color: #363E3E;" type="submit" class="btn btn-secondary">Logout</button>
+            </form></span>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-2 mt-3 px-0">
+            <ul class="nav flex-column nav-pills" role="tablist">
+              <li><a class="nav-link active" href="#User" role="tab" data-toggle="pill" aria-selected="true">User</a></li>
+            </ul>
+          </div>
+
+          <div class="col-10 bg-light" style="height: 100vh">
+            <div class="container mt-3">
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade show active" id="User">
+                  <div class="page-header">
+                    <h2>User information-page</h2>
+                      <h5 class="card-header">About user</h5>
+
+                        <table class="table table-striped card-body">
+                          <thead>
+                            <tr>
+                              <th scope = "col">ID</th>
+                              <th scope = "col">Name</th>
+                                <th scope = "col">LastName</th>
+                              <th scope = "col">Role</th>
+                            </tr>
+                          </thead>
+                          <tbody id="data">
+
+                          </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+      fetch("/read_profile/get").then(
+        res => {
+           res.json().then(
+               data => {
+                   console.log(data);
+                   let roles = "";
+                   data.roles.forEach((r) => {
+                       if (r.id === 1){
+                           roles += "USER"
+                       }
+                       if (r.id === 2){
+                           roles += "ADMIN"
+                       }
+                       if (r === 1){
+                           roles += "USER"
+                       }
+                       if (r === 2){
+                           roles += "ADMIN"
+                       }
+                   })
+                   document.getElementById("roles").innerHTML = roles
+                   let temp = "<tr><td>"+data.id+"</td><td>"+data.name+"</td><td>"+data.lastName+"</td><td>"+roles+"</td></tr>";
+                   document.getElementById("data").innerHTML = temp;
+                   document.getElementById("dataName").innerHTML = data.name;
+               }
+           )
+        }
+      )
+    </script>
+
+</body>
+</html>
