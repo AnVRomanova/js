@@ -32,8 +32,6 @@ public class WebSecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/home").permitAll()
-                        .requestMatchers("/hello").authenticated()
                         .requestMatchers("/read_profile/**").hasAnyRole("USER")
                         .requestMatchers("/only_for_admins/**").hasAnyRole("ADMIN")
                         .anyRequest().authenticated()
